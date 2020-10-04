@@ -6,7 +6,8 @@ export default StyleSheet.create({
         flex: 1,
         paddingHorizontal: 24,
         paddingTop: Constants.statusBarHeight + 20,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     header: {
@@ -16,7 +17,7 @@ export default StyleSheet.create({
     },
 
     headerText: {
-        fontSize: 30,
+        fontSize: 40,
         fontWeight: 'bold',
         marginBottom: 32
     },

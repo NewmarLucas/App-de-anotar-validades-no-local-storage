@@ -6,7 +6,8 @@ export default StyleSheet.create({
         flex: 1,
         paddingHorizontal: 24,
         paddingTop: Constants.statusBarHeight + 20,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     header: {
@@ -19,5 +20,11 @@ export default StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 32
-    }
+    },
+
+    buttonBack: {
+        position: 'absolute',
+        top: 15,
+        left: 15
+    },
 });
