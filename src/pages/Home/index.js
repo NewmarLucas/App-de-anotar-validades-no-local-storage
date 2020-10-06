@@ -7,7 +7,6 @@ import styles from './styles';
 
 export default function Home() {
 
-
     const navigation = useNavigation();
 
     function navigationToCreate() {
