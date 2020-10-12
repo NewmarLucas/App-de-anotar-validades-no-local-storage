@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons';
 
 import styles from './styles';
 // import getRealm from '../../services/realm';
@@ -11,8 +12,7 @@ export default function Create() {
     const [name, setName] = useState('');
     const [barCode, setBarCode] = useState('');
     const [validity, setValidity] = useState('');
-
-    const [id, setId] = useState([]);
+    // const [id, setId] = useState('');
 
     const navigation = useNavigation();
 
@@ -20,13 +20,39 @@ export default function Create() {
         navigation.goBack();
     }
 
-    function createProduct() {
-        Alert.alert(
-            "Produto cadatrado com sucesso",
-            [
-                { text: "Continuar" }
-            ],
-        )
+
+    async function createProduct() {
+
+
+        try {
+            const id = Math.floor(Math.random() * 16777215).toString(16);
+
+            const value = {
+                name,
+                barCode,
+                validity,
+                id
+            }
+
+            const savedItems = JSON.stringify(value)
+            await AsyncStorage.setItem(id, savedItems);
+            console.log(savedItems);
+
+            // Alert.alert(
+            //     "Produto cadatrado com sucesso",
+            //     [
+            //         { text: "Continuar" }
+            //     ],
+            // )
+        } catch (err) {
+            Alert.alert(
+                "Erro no cadastro",
+                [
+                    { text: "Tente novamente!" }
+                ],
+            )
+
+        }
     }
 
     return (
@@ -51,6 +77,7 @@ export default function Create() {
                 <TextInput
                     style={styles.formTextInput}
                     placeholder="Insira o codigo de barras"
+                    keyboardType="numeric"
                     onChangeText={text => setBarCode(text)}
                 />
                 <TextInput
