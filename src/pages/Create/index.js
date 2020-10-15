@@ -12,7 +12,6 @@ export default function Create() {
     const [name, setName] = useState('');
     const [barCode, setBarCode] = useState('');
     const [validity, setValidity] = useState('');
-    // const [id, setId] = useState('');
 
     const navigation = useNavigation();
 
@@ -34,9 +33,16 @@ export default function Create() {
                 id
             }
 
-            const savedItems = JSON.stringify(value)
-            await AsyncStorage.setItem(id, savedItems);
+            let savedItems = [];
+
+            const response = await AsyncStorage.getItem('item');
+
+            if (response) savedItems = JSON.parse(response);
+            savedItems.push(value);
             console.log(savedItems);
+
+
+            await AsyncStorage.setItem('item', JSON.stringify(savedItems));
 
             // Alert.alert(
             //     "Produto cadatrado com sucesso",

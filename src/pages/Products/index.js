@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList} from 'react-native';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Feather } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -8,9 +8,10 @@ import styles from './styles';
 
 export default function Products() {
 
-    const [id, setId] = useState([]);
+    const [product, setProduct] = useState([]);
 
     const navigation = useNavigation();
+
 
     function navigateBack() {
         navigation.goBack();
@@ -18,10 +19,13 @@ export default function Products() {
 
     async function showItems() {
         try {
-            const savedItems = await AsyncStorage.getItem(id)
-            return savedItems != null ? JSON.parse(savedItems) : null;
-            console.log(savedItems);
-        } catch(err) {
+            const res = await AsyncStorage.getItem('item')
+            .then(res => { return Promise.resolve(JSON.parse(res))});
+            setProduct(res);
+            
+            console.log(product);
+
+        } catch (err) {
 
         }
     }
@@ -38,20 +42,20 @@ export default function Products() {
 
             <FlatList
                 style={styles.productList}
-                data={[1, 2, 3, 4]}
-                keyExtractor={item => String(item)}
-                renderItem={() => (
-                    <View style={styles.product}> 
-                        <Text>Nome: </Text>
-                        <Text>Coca-cola 2l</Text>
+                data={product}
+                keyExtractor={product => String(product)}
+                renderItem={({ product }) =>
+                    <View style={styles.product}>
+                        <Text style={styles.productProperty}>Nome: </Text>
+                        <Text style={styles.productValue}>${item.name}</Text>
 
-                        <Text>Codigo de barras: </Text>
-                        <Text> 7894900027013 </Text>
+                        <Text style={styles.productProperty}>Codigo de barras: </Text>
+                        <Text style={styles.productValue}> ${item.barCode} </Text>
 
-                        <Text>Validade: </Text>
-                        <Text>16/12/2020</Text>
+                        <Text style={styles.productProperty}>Validade: </Text>
+                        <Text style={styles.productValue}>${item.validity}</Text>
                     </View>
-                )}
+                }
             />
         </View>
     )

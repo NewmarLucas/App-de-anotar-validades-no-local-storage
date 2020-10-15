@@ -30,4 +30,17 @@ export default StyleSheet.create({
         backgroundColor: '#FFF',
         marginBottom: 16
     },
+
+    productProperty: {
+        fontSize: 14,
+        color: '#41414D',
+        fontWeight: 'bold'
+    },
+
+    productValue: {
+        marginTop: 8,
+        fontSize: 15,
+        marginBottom: 24,
+        color: '#737380'
+    },
 });
