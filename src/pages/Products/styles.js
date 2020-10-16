@@ -6,7 +6,6 @@ export default StyleSheet.create({
         flex: 1,
         paddingHorizontal: 24,
         paddingTop: Constants.statusBarHeight + 20,
-        alignItems: 'center'
     },
 
     header: {
@@ -18,6 +17,30 @@ export default StyleSheet.create({
     headerText: {
         fontSize: 30,
         fontWeight: 'bold',
-        marginBottom: 32
-    }
+        right: 15
+    },
+
+    productList: {
+        marginTop: 32, 
+    },
+
+    product: {
+        padding: 24,
+        borderRadius: 8,
+        backgroundColor: '#FFF',
+        marginBottom: 16
+    },
+
+    productProperty: {
+        fontSize: 14,
+        color: '#41414D',
+        fontWeight: 'bold'
+    },
+
+    productValue: {
+        marginTop: 8,
+        fontSize: 15,
+        marginBottom: 24,
+        color: '#737380'
+    },
 });
