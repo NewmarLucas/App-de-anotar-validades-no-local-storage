@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Feather } from '@expo/vector-icons'
@@ -17,18 +17,34 @@ export default function Products() {
         navigation.goBack();
     }
 
+    useEffect(() => {
     async function showItems() {
         try {
             const res = await AsyncStorage.getItem('item')
-            .then(res => { return Promise.resolve(JSON.parse(res))});
+            .then(res => { return Promise.resolve(JSON.parse(res)) });
             setProduct(res);
-            
+
             console.log(product);
 
         } catch (err) {
 
         }
     }
+    showItems()
+}, [])
+
+    const renderItem = ({ item }) => (
+        <View style={styles.product}>
+            <Text style={styles.productProperty}>Nome: </Text>
+            <Text style={styles.productValue}>${item.name}</Text>
+
+            <Text style={styles.productProperty}>Codigo de barras: </Text>
+            <Text style={styles.productValue}> ${item.barCode} </Text>
+
+            <Text style={styles.productProperty}>Validade: </Text>
+            <Text style={styles.productValue}>${item.validity}</Text>
+        </View>
+    )
 
     return (
 
@@ -43,19 +59,8 @@ export default function Products() {
             <FlatList
                 style={styles.productList}
                 data={product}
-                keyExtractor={product => String(product)}
-                renderItem={({ product }) =>
-                    <View style={styles.product}>
-                        <Text style={styles.productProperty}>Nome: </Text>
-                        <Text style={styles.productValue}>${item.name}</Text>
-
-                        <Text style={styles.productProperty}>Codigo de barras: </Text>
-                        <Text style={styles.productValue}> ${item.barCode} </Text>
-
-                        <Text style={styles.productProperty}>Validade: </Text>
-                        <Text style={styles.productValue}>${item.validity}</Text>
-                    </View>
-                }
+                keyExtractor={(item => item.id)}
+                renderItem={renderItem}
             />
         </View>
     )
