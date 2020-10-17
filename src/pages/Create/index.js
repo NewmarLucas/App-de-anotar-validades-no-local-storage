@@ -44,12 +44,6 @@ export default function Create() {
 
             await AsyncStorage.setItem('item', JSON.stringify(savedItems));
 
-            // Alert.alert(
-            //     "Produto cadatrado com sucesso",
-            //     [
-            //         { text: "Continuar" }
-            //     ],
-            // )
         } catch (err) {
             Alert.alert(
                 "Erro no cadastro",
@@ -58,6 +52,10 @@ export default function Create() {
                 ],
             )
 
+        } finally {
+            Alert.alert(
+                "Produto cadatrado com sucesso"
+            )
         }
     }
 

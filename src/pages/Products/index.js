@@ -36,13 +36,13 @@ export default function Products() {
     const renderItem = ({ item }) => (
         <View style={styles.product}>
             <Text style={styles.productProperty}>Nome: </Text>
-            <Text style={styles.productValue}>${item.name}</Text>
+            <Text style={styles.productValue}>{item.name}</Text>
 
             <Text style={styles.productProperty}>Codigo de barras: </Text>
-            <Text style={styles.productValue}> ${item.barCode} </Text>
+            <Text style={styles.productValue}> {item.barCode} </Text>
 
             <Text style={styles.productProperty}>Validade: </Text>
-            <Text style={styles.productValue}>${item.validity}</Text>
+            <Text style={styles.productValue}>{item.validity}</Text>
         </View>
     )
 
