@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Feather } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -17,32 +17,65 @@ export default function Products() {
         navigation.goBack();
     }
 
-    useEffect(() => {
-    async function showItems() {
-        try {
-            const res = await AsyncStorage.getItem('item')
-            .then(res => { return Promise.resolve(JSON.parse(res)) });
-            setProduct(res);
+    function confirmDelete(id) {
+        Alert.alert(
+            "Atenção",
+            "Você tem certeza que deseja excluir este item?",
+            [
+                {
+                    text: "Não",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Sim", onPress: () => handleDeleteProduct(id) }
+            ],
+            { cancelable: false }
+        );
+    }
 
-            console.log(product);
+    function handleDeleteProduct(id) {
+        try {
+            const index = product.findIndex(item => item.id === id);
+            product.splice(index, 1);
+            return AsyncStorage.setItem('item', JSON.stringify(product));
 
         } catch (err) {
 
+        } finally {
+            setProduct(product.filter(product => product.id !== id));
         }
     }
-    showItems()
-}, [])
+
+
+
+    useEffect(() => {
+        async function showItems() {
+            try {
+                const res = await AsyncStorage.getItem('item')
+                    .then(res => { return Promise.resolve(JSON.parse(res)) });
+                setProduct(res);
+
+            } catch (err) {
+
+            }
+        }
+        showItems()
+    }, [])
 
     const renderItem = ({ item }) => (
         <View style={styles.product}>
             <Text style={styles.productProperty}>Nome: </Text>
-            <Text style={styles.productValue}>${item.name}</Text>
+            <Text style={styles.productValue}>{item.name}</Text>
 
             <Text style={styles.productProperty}>Codigo de barras: </Text>
-            <Text style={styles.productValue}> ${item.barCode} </Text>
+            <Text style={styles.productValue}> {item.barCode} </Text>
 
             <Text style={styles.productProperty}>Validade: </Text>
-            <Text style={styles.productValue}>${item.validity}</Text>
+            <Text style={styles.productValue}>{item.validity}</Text>
+
+            <TouchableOpacity style={styles.detailButtontrash} onPress={() => confirmDelete(item.id)}>
+                <Feather name="trash-2" size={20} color="#A8A8B3" />
+            </TouchableOpacity>
         </View>
     )
 

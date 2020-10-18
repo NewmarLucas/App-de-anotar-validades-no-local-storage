@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
+import DatePicker from 'react-native-datepicker';
 
 import styles from './styles';
-// import getRealm from '../../services/realm';
 
 export default function Create() {
 
@@ -19,9 +19,7 @@ export default function Create() {
         navigation.goBack();
     }
 
-
     async function createProduct() {
-
 
         try {
             const id = Math.floor(Math.random() * 16777215).toString(16);
@@ -39,24 +37,19 @@ export default function Create() {
 
             if (response) savedItems = JSON.parse(response);
             savedItems.push(value);
-            console.log(savedItems);
 
 
             await AsyncStorage.setItem('item', JSON.stringify(savedItems));
 
-            // Alert.alert(
-            //     "Produto cadatrado com sucesso",
-            //     [
-            //         { text: "Continuar" }
-            //     ],
-            // )
         } catch (err) {
             Alert.alert(
-                "Erro no cadastro",
-                [
-                    { text: "Tente novamente!" }
-                ],
+                "Erro no cadastro"
             )
+
+        } finally {
+            Alert.alert(
+                "Produto cadastrado com sucesso"
+            );
 
         }
     }
@@ -72,8 +65,6 @@ export default function Create() {
                 <Text style={styles.headerText}>Cadastrar Produto</Text>
             </View>
 
-
-
             <View style={styles.form}>
                 <TextInput
                     style={styles.formTextInput}
@@ -86,16 +77,37 @@ export default function Create() {
                     keyboardType="numeric"
                     onChangeText={text => setBarCode(text)}
                 />
-                <TextInput
-                    style={styles.formTextInput}
-                    placeholder="Insira a data de validade"
-                    onChangeText={text => setValidity(text)}
+                <DatePicker
+                    style={{ width: 310, marginTop: 20 }}
+                    mode="date"
+                    date={validity}
+                    placeholder="Validade do produto"
+                    format="DD-MM-YYYY"
+                    minDate="18-10-2020"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    onDateChange={(date) => setValidity(date)}
+                    userNativeDriver="true"
+                    customStyles={{
+                        dateIcon: {
+                            position: 'absolute',
+                            left: 0,
+                            top: 4,
+                            marginLeft: 0
+                        },
+                        dateInput: {
+                            marginLeft: 36,
+                            height: 60,
+                            borderRadius: 8,
+                            backgroundColor: '#fff',
+                            fontSize: 18
+                        }
+                    }}
                 />
                 <TouchableOpacity onPress={createProduct} style={styles.button}>
                     <Text style={styles.buttonText}>Adicionar</Text>
                 </TouchableOpacity>
             </View>
-
 
         </View>
     )

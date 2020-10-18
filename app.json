@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "validades",
+    "name": "controle de validade",
     "slug": "validades",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,6 +16,10 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "com.yourcompany.yourappname",
+      "versionCode": 1
+    },
     "ios": {
       "supportsTablet": true
     },

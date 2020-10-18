@@ -43,4 +43,10 @@ export default StyleSheet.create({
         marginBottom: 24,
         color: '#737380'
     },
+
+    detailButtontrash: {
+        position: 'absolute',
+        right: 24,
+        top: 24
+    },
 });
